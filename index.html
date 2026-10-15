@@ -22,7 +22,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preload" href="fonts/Inter-Regular.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="fonts/head.woff" as="font" type="font/woff" crossorigin>
-<link rel="preload" as="image" href="img/hero-poster.webp" imagesrcset="img/hero-poster-640.webp 640w, img/hero-poster.webp 1280w" imagesizes="100vw" fetchpriority="high">
+<link rel="preload" as="image" href="seq/s/000.webp" media="(max-width:767px)" fetchpriority="high"><link rel="preload" as="image" href="seq/l/000.webp" media="(min-width:768px)" fetchpriority="high">
 <link rel="stylesheet" href="assets/style.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ExerciseGym", "name": "Компас", "url": "https://kompas-ozery.ru/", "logo": "https://kompas-ozery.ru/img/logo-480.webp", "image": "https://kompas-ozery.ru/img/og.jpg", "telephone": "+79000000000", "priceRange": "150–2000 ₽", "address": {"@type": "PostalAddress", "streetAddress": "ул. Спортивная, 1", "addressLocality": "Озёры", "addressRegion": "Московская область", "postalCode": "140560", "addressCountry": "RU"}, "openingHours": ["Mo-Fr 07:00-22:00", "Sa-Su 09:00-20:00"], "areaServed": ["Озёры", "Коломна", "Кашира", "Ступино"], "sameAs": ["https://vk.com/kompas_ozery", "https://t.me/kompas_ozery"]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "С какого возраста можно заниматься?", "acceptedAnswer": {"@type": "Answer", "text": "С 14 лет. Тем, кому ещё нет 18, нужно согласие родителей."}}, {"@type": "Question", "name": "Что входит в абонемент?", "acceptedAnswer": {"@type": "Answer", "text": "Абонемент стоит 2 000 ₽ в месяц. В него входят занятия в зале и программа тренировок на 8–12 недель в подарок."}}, {"@type": "Question", "name": "Как получить программу тренировок в подарок?", "acceptedAnswer": {"@type": "Answer", "text": "Купи абонемент и расскажи тренеру о своей цели: похудеть, набрать массу или подтянуть форму. Программу составят под тебя, она останется у тебя."}}, {"@type": "Question", "name": "Нужно ли записываться на разовое занятие?", "acceptedAnswer": {"@type": "Answer", "text": "Можно прийти в часы работы зала. Но лучше оставь заявку: на первом занятии тренер покажет зал и поставит технику, а для этого договоримся о времени."}}, {"@type": "Question", "name": "Что взять с собой на первую тренировку?", "acceptedAnswer": {"@type": "Answer", "text": "Спортивную форму, чистую сменную обувь, полотенце и воду. Для цены 150 ₽ возьми студенческий билет."}}, {"@type": "Question", "name": "Я ни разу не был в зале. Помогут разобраться?", "acceptedAnswer": {"@type": "Answer", "text": "Да. На первом занятии тренер покажет зал и тренажёры, поставит технику базовых упражнений и подскажет, с какого веса начать. С абонементом получишь программу на 8–12 недель."}}, {"@type": "Question", "name": "Сколько стоит тренировка с тренером?", "acceptedAnswer": {"@type": "Answer", "text": "Стоимость зависит от количества занятий. Позвони или оставь заявку, и мы подберём вариант."}}, {"@type": "Question", "name": "Есть ли раздевалка и душ?", "acceptedAnswer": {"@type": "Answer", "text": "Да, есть мужская и женская раздевалки с душем и шкафчиками."}}, {"@type": "Question", "name": "Можно ли заморозить абонемент?", "acceptedAnswer": {"@type": "Answer", "text": "Да, абонемент можно заморозить. Срок и условия подскажет администратор."}}, {"@type": "Question", "name": "Как оплатить — картой или наличными?", "acceptedAnswer": {"@type": "Answer", "text": "Картой, наличными или переводом по СБП на стойке администратора."}}, {"@type": "Question", "name": "Как добраться из Коломны, Каширы и Ступино?", "acceptedAnswer": {"@type": "Answer", "text": "Маршруты, время в пути и цены для соседних городов собрали на отдельных страницах: из Коломны, Каширы, Ступино."}}]}</script>
@@ -45,10 +45,11 @@
 </header>
 
 <main id="main">
-<section class="hero" aria-labelledby="hero-h">
+<section class="hero hero--scroll" aria-labelledby="hero-h" data-seq-l="seq/l/" data-n-l="97" data-seq-s="seq/s/" data-n-s="49">
+<div class="hero__stage">
 <div class="hero__media">
-<img src="img/hero-poster.webp" srcset="img/hero-poster-640.webp 640w, img/hero-poster.webp 1280w" sizes="100vw" width="1280" height="720" alt="Гантельный ряд в тренажёрном зале Компас" fetchpriority="high">
-<video muted loop playsinline preload="none" aria-hidden="true" data-sm="video/hero-640.mp4" data-lg="video/hero.mp4"></video>
+<picture><source media="(max-width:767px)" srcset="seq/s/000.webp" width="450" height="800"><img src="seq/l/000.webp" width="1280" height="720" alt="Зал «Компас»: тренажёры и гантельный ряд в вечернем свете" fetchpriority="high"></picture>
+<canvas class="hero__cv" aria-hidden="true"></canvas>
 </div>
 <div class="wrap hero__in">
 <div class="eyebrow"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><span><b>000°</b> · Озёры, тренажёрный зал</span></div>
@@ -59,6 +60,12 @@
 <a class="btn btn--ghost" href="tel:+79000000000" data-goal="phone_click"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 013 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>+7 (900) 000-00-00</a>
 </div>
 <p class="hero__open"><span class="open" data-open hidden></span><span class="hero__addr">Озёры, ул. Спортивная, 1</span><a class="hero__rating" href="https://yandex.ru/maps/?text=Озёры%2C%20ул.%20Спортивная%2C%201" target="_blank" rel="noopener" data-goal="rating_click"><span aria-hidden="true">★</span> 4,9 на Яндекс Картах</a></p>
+</div>
+<div class="hero__steps" aria-hidden="true">
+<div class="hstep"><span class="hstep__k">Шаг 1 из 3</span><b>Приходи в зал</b><span>Покажем тренажёры и поставим технику</span></div>
+<div class="hstep"><span class="hstep__k">Шаг 2 из 3</span><b>Работай по плану</b><span>План на 8–⁠12 недель под твою цель</span></div>
+<div class="hstep"><span class="hstep__k">Шаг 3 из 3</span><b>Видишь результат</b><span>Тренер следит за прогрессом и меняет нагрузку</span></div>
+</div>
 </div>
 </section>
 

@@ -614,3 +614,23 @@ a{text-underline-offset:3px}
 .mbar .btn{gap:8px}
 .mbar .btn svg{width:18px;height:18px}
 @media(max-width:479px){.btn--main[data-calc-cta]{white-space:normal;text-align:center;line-height:1.3}}
+
+/* Первый экран: ролик по прокрутке */
+.hero--scroll{display:block;min-height:0;height:280vh;overflow:clip}
+.hero--scroll::after{display:none}
+.hero__stage{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;overflow:hidden;isolation:isolate}
+.hero__stage::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(14,15,17,.5) 0%,rgba(14,15,17,0) 28%,rgba(14,15,17,.1) 60%,rgba(14,15,17,.75) 100%),linear-gradient(90deg,rgba(14,15,17,.72),rgba(14,15,17,0) 62%)}
+.hero--scroll .hero__media picture,.hero--scroll .hero__media img{display:block;width:100%;height:100%;object-fit:cover}
+.hero__cv{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .4s}
+.hero--scroll.is-cv .hero__cv{opacity:1}
+.hero--scroll .hero__in{will-change:opacity,transform}
+.hero__steps{position:absolute;left:0;right:0;bottom:0;top:0;pointer-events:none}
+.hstep{position:absolute;left:max(var(--pad),calc((100% - var(--wrap))/2 + var(--pad)));right:var(--pad);bottom:clamp(96px,16vh,160px);max-width:560px;opacity:0;transform:translateY(24px);transition:opacity .45s,transform .45s;display:flex;flex-direction:column;gap:8px}
+.hstep.is-on{opacity:1;transform:none}
+.hstep__k{font-size:var(--fs-sm);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.hstep b{font:400 calc(clamp(24px,4.6vw,56px) * var(--hs))/1.05 var(--head);text-transform:uppercase}
+.hstep span:last-child{color:var(--text);font-size:var(--fs-md);max-width:36ch}
+.hero--static{height:auto}
+.hero--static .hero__stage{position:relative;min-height:min(100svh,920px);height:auto}
+.hero--static .hero__steps{display:none}
+@media(prefers-reduced-motion:reduce){.hero--scroll{height:auto}.hero--scroll .hero__stage{position:relative;min-height:min(100svh,920px);height:auto}.hero__steps{display:none}}

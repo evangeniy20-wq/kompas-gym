@@ -49,17 +49,59 @@
     d.querySelectorAll('.mnav a').forEach(function (a) { a.addEventListener('click', closeMenu); });
   }
 
-  /* Видео на первом экране: всегда играет само, без звука и без управления */
-  var v = d.querySelector('.hero__media video');
-  if (v) {
-    var src = w.innerWidth < 768 ? v.getAttribute('data-sm') : v.getAttribute('data-lg');
-    if (v.canPlayType('video/webm; codecs="vp9"')) src = src.replace(/\.mp4$/, '.webm');
-    v.muted = true; v.defaultMuted = true; v.setAttribute('muted', ''); v.autoplay = true; v.src = src;
-    v.addEventListener('playing', function () { v.classList.add('is-on'); }, { once: true });
-    var tryPlay = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
-    tryPlay();
-    d.addEventListener('visibilitychange', function () { if (!d.hidden) tryPlay(); });
-    d.addEventListener('touchstart', tryPlay, { once: true, passive: true });
+  /* Первый экран: ролик по прокрутке (кадры WebP на canvas) */
+  var hs = d.querySelector('.hero--scroll');
+  if (hs) {
+    var stage = hs.querySelector('.hero__stage'), cv = hs.querySelector('.hero__cv'), hin = hs.querySelector('.hero__in');
+    var steps = hs.querySelectorAll('.hstep');
+    var still = (w.matchMedia && w.matchMedia('(prefers-reduced-motion: reduce)').matches) || (navigator.connection && navigator.connection.saveData);
+    if (still || !cv.getContext) { hs.classList.add('hero--static'); }
+    else {
+      var small = w.innerWidth < 768;
+      var base = hs.getAttribute(small ? 'data-seq-s' : 'data-seq-l'), n = +hs.getAttribute(small ? 'data-n-s' : 'data-n-l');
+      var ctx = cv.getContext('2d'), imgs = new Array(n), cur = -1, need = 0, ticking = false;
+      var name = function (i) { return base + ('00' + i).slice(-3) + '.webp'; };
+      var size = function () {
+        var r = Math.min(w.devicePixelRatio || 1, small ? 2 : 1.5);
+        cv.width = Math.round(stage.clientWidth * r); cv.height = Math.round(stage.clientHeight * r); cur = -1; draw();
+      };
+      var near = function (i) { /* ближайший загруженный кадр */
+        for (var k = 0; k < n; k++) { if (imgs[i - k] && imgs[i - k].ok) return imgs[i - k]; if (imgs[i + k] && imgs[i + k].ok) return imgs[i + k]; }
+        return null;
+      };
+      var draw = function () {
+        var im = near(need); if (!im) return;
+        var key = im.idx; if (key === cur) return; cur = key;
+        var cw = cv.width, ch = cv.height, s = Math.max(cw / im.naturalWidth, ch / im.naturalHeight);
+        var iw = im.naturalWidth * s, ih = im.naturalHeight * s;
+        ctx.drawImage(im, (cw - iw) / 2, (ch - ih) / 2, iw, ih);
+        if (!hs.classList.contains('is-cv')) hs.classList.add('is-cv');
+      };
+      var load = function (i) {
+        if (imgs[i]) return; var im = new Image(); im.idx = i; im.decoding = 'async';
+        im.onload = function () { im.ok = true; if (Math.abs(i - need) < 3 || cur < 0) { cur = -1; draw(); } };
+        im.src = name(i); imgs[i] = im;
+      };
+      /* сначала каждый 8-й кадр, потом 4-й, 2-й и все остальные — прокрутка работает сразу */
+      var order = [];
+      [8, 4, 2, 1].forEach(function (st) { for (var i = 0; i < n; i += st) if (order.indexOf(i) < 0) order.push(i); });
+      if (order.indexOf(n - 1) < 0) order.splice(1, 0, n - 1);
+      var start = function () { var j = 0; (function next() { var k = 0; while (j < order.length && k < 6) { load(order[j++]); k++; } if (j < order.length) setTimeout(next, 60); })(); };
+      var ease = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x * x * (3 - 2 * x); };
+      var upd = function () {
+        ticking = false;
+        var r = hs.getBoundingClientRect(), span = hs.offsetHeight - stage.clientHeight;
+        var p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+        need = Math.round(p * (n - 1)); draw();
+        if (hin) { var o = 1 - ease(p / 0.2); hin.style.opacity = o; hin.style.transform = 'translateY(' + (-40 * (1 - o)) + 'px)'; hin.style.visibility = o < 0.02 ? 'hidden' : ''; }
+        for (var i = 0; i < steps.length; i++) { var a = 0.24 + i * 0.25; steps[i].classList.toggle('is-on', p >= a && (i === steps.length - 1 ? p <= 1.01 : p < a + 0.25)); }
+      };
+      var onScroll = function () { if (!ticking) { ticking = true; requestAnimationFrame(upd); } };
+      size(); upd();
+      w.addEventListener('scroll', onScroll, { passive: true });
+      var rz; w.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { size(); upd(); }, 120); });
+      if (d.readyState === 'complete') start(); else w.addEventListener('load', start);
+    }
   }
 
   /* Появление блоков */
