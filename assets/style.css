@@ -634,3 +634,12 @@ a{text-underline-offset:3px}
 .hero--static .hero__stage{position:relative;min-height:min(100svh,920px);height:auto}
 .hero--static .hero__steps{display:none}
 @media(prefers-reduced-motion:reduce){.hero--scroll{height:auto}.hero--scroll .hero__stage{position:relative;min-height:min(100svh,920px);height:auto}.hero__steps{display:none}}
+
+/* Стекло (glassmorphism): шапка, шаги ролика, мобильная панель */
+:root{--glass-bg:rgba(14,15,17,.5);--glass-bg-strong:rgba(14,15,17,.86);--glass-border:rgba(255,255,255,.12);--glass-hi:rgba(255,255,255,.16);--glass-blur:18px;--glass-sat:150%;--glass-shadow:0 10px 30px rgba(0,0,0,.35)}
+@media(max-width:767px){:root{--glass-blur:12px}}
+.hdr.is-solid,.hdr--page{background:var(--glass-bg);border-color:var(--glass-border);-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));box-shadow:inset 0 -1px 0 rgba(255,255,255,.04)}
+.hstep{padding:20px 22px;border-radius:12px;background:rgba(14,15,17,.38);border:1px solid var(--glass-border);box-shadow:inset 0 1px 0 var(--glass-hi),var(--glass-shadow);-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat))}
+.mbar{background:var(--glass-bg);border-top-color:var(--glass-border);box-shadow:inset 0 1px 0 var(--glass-hi);-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat))}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.hdr.is-solid,.hdr--page,.mbar{background:var(--glass-bg-strong)}.hstep{background:rgba(14,15,17,.78)}}
+@media(prefers-reduced-transparency:reduce){.hdr.is-solid,.hdr--page,.mbar{background:var(--glass-bg-strong);-webkit-backdrop-filter:none;backdrop-filter:none}.hstep{background:rgba(14,15,17,.86);-webkit-backdrop-filter:none;backdrop-filter:none}}
